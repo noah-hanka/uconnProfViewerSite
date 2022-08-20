@@ -67,7 +67,7 @@ body {
 /* ------------------------------main page style-------------------------------- */
 
 #mainpage {
-    padding-top: 5rem;
+    padding-top: 6rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -97,6 +97,7 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
+    align-items: center;
 }
 
 .ratingBox {
@@ -104,16 +105,31 @@ body {
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    background-color: aqua;
     width: 8rem;
     height: 8rem;
     margin-right: 4rem;
     border-radius: 1rem;
     padding: .5rem;
+    text-align: center;
 }
 
 .infobox {
     display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 100%;
+    padding: 1rem 0 1rem 0;
+    width: 100%;
+}
+
+.name_and_department {
+    display: flex;
     flex-direction: row;
     justify-content: flex-start;
+}
+
+.teacherName {
+    border-right: solid 1px #000E2F;
+    padding-right: 1rem;
+    margin-right: 1rem;
 }
