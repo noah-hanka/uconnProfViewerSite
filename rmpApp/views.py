@@ -28,6 +28,10 @@ def search(request):
     if len(searchResults) == 0: noResults = True
     template = loader.get_template('rmpApp/search.html')
 
+    for name in searchResultsNames:
+        searchResults[name]["firstName"] = searchResults[name]["firstName"].lower()
+        searchResults[name]["lastName"] = searchResults[name]["lastName"].lower()        
+
     teacherLookupKey = {key:key for key in list(list(searchResults.values())[0].keys())} if len(searchResults) > 0 else dict()
     context = {
         'searchResults':searchResults,

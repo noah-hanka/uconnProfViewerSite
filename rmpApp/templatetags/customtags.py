@@ -18,3 +18,6 @@ def ratingcolor(value):
     if value >= 4:
         color = '#8CD47E'
     return color
+@register.filter
+def lower(text):
+    return text.lower()

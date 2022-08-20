@@ -18,7 +18,7 @@
 <body>
     <div id="navbar">
         <div id="pageTitle">
-            UCONN RateMyProfessor Viewer
+            uconn ratemyprofessors viewer
         </div>
         <div id="nav-sections">
             <div id="searchContainer">
@@ -26,7 +26,7 @@
                     {% csrf_token %}
                     <input id="searchbar" type="text" name="search"
                         placeholder="search for professors...">
-                    <input class="nav-button" id="searchbutton" type="submit" value="Search">
+                    <input class="nav-button" id="searchbutton" type="submit" value="search">
                 </form>
             </div>
             <div id="homebox">
@@ -38,12 +38,12 @@
     </div>
     <article id="mainpage">
         {% if noResults %}
-            <div id="resultText">No Results Found</div>
+            <div id="resultText">no results found</div>
         {% else %}
             {%if allResultsShown%}
-                <div id="resultText">All Results for {{searchQuery}}</div>
+                <div id="resultText">all results for {{searchQuery}}</div>
             {%else%}
-                <div id="resultText">First 20 Results for {{searchQuery}}</div>
+                <div id="resultText">first 20 results for {{searchQuery}}</div>
             {%endif%}
             <div id="teacherList">
                 {% for teacher in searchResultsNames %}
@@ -74,7 +74,7 @@
             </div>
         {% endif %}
     </article>
-    
+    <script src="{% static 'rmpApp/search.js' %}"></script>
 </body>
 
 </html>
