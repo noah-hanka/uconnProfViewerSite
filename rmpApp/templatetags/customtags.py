@@ -12,7 +12,9 @@ def na(value):
 @register.filter
 def ratingcolor(value):
     value = int(value)
-    color = '#FF6961'
+    color = '#7C878E'
+    if value > 0:
+        color = '#FF6961'
     if value >= 2.5:
         color = '#F8D66D'
     if value >= 4:
@@ -21,3 +23,6 @@ def ratingcolor(value):
 @register.filter
 def lower(text):
     return text.lower()
+@register.filter
+def removePeriods(text):
+    return text.replace('.','')

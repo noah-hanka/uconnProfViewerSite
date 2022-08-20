@@ -16,8 +16,7 @@ class rmp:
             time.sleep(1)
             response = requests.get(website,timeout=None)
         except:
-            print("Failed to retrieve HTML content")
-            response = None
+            raise Exception("Failed to retrieve HTML content")
         return response
     
     #takes json data in the form of a python dictionary and dumps it into a output file in the data/ directory
@@ -29,7 +28,7 @@ class rmp:
             with open(f'{folder}/{filename}.json','w+') as f:
                 json.dump(jsondata,f)
         except:
-            print("Failed to save json data")
+            raise Exception("Failed to save json data")
     
     #extracts from a json file and returns a python dictionary
     def extractJSON(self,filename):
@@ -170,7 +169,7 @@ class rmp:
             firstname = teacher['firstName']
             lastname = teacher['lastName']
             legacyId = teacher['legacyId']
-            teacherDict[f'{firstname}_{lastname}_{legacyId}'] = teacher
+            teacherDict[f'{firstname}_{lastname}_{legacyId}'.replace('.','')] = teacher
 
         return teacherDict
 
