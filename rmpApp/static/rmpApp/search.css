@@ -1,0 +1,119 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-size: 16px;
+    background-color: white;
+    color: #000E2F;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+/* ------------------------------navbar style-------------------------------- */
+
+
+#navbar {
+    width: 100%;
+    position: fixed;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #000E2F;
+    color: white;
+    padding: 1rem;
+}
+
+
+#pageTitle {
+    width: 50%;
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+#searchContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#searchbar {
+    border-radius: 1rem;
+    border: none;
+    padding: .5rem 1rem .5rem 1rem;
+}
+
+#nav-sections {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    width: 50%;
+}
+
+#homebox {
+    padding-left: 2rem;
+}
+
+.nav-button {
+    border-radius: 1rem;
+    border: none;
+    padding: .5rem 1rem .5rem 1rem;
+}
+
+/* ------------------------------main page style-------------------------------- */
+
+#mainpage {
+    padding-top: 5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#resultText {
+    width: 90%;
+    margin: 1rem 0 0 0;
+    padding: 1rem 1rem 1rem 1rem;
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+#teacherList {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+}
+
+.teacher {
+    border: 1px solid #000E2F;
+    margin: 1rem 0 1rem 0;
+    padding: 1rem 1rem 1rem 1rem;
+    border-radius: 1rem;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.ratingBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    background-color: aqua;
+    width: 8rem;
+    height: 8rem;
+    margin-right: 4rem;
+    border-radius: 1rem;
+    padding: .5rem;
+}
+
+.infobox {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}

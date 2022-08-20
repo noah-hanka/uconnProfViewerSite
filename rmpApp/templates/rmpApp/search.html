@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UCONN RMP Search Results</title>
+
+    {% load customtags %}
+    {% load static %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'rmpApp/search.css' %}">
+</head>
+
+<body>
+    <div id="navbar">
+        <div id="pageTitle">
+            UCONN RateMyProfessor Viewer
+        </div>
+        <div id="nav-sections">
+            <div id="searchContainer">
+                <form class="searchform" action="search" method="get">
+                    {% csrf_token %}
+                    <input id="searchbar" type="text" name="search"
+                        placeholder="search for professors...">
+                    <input class="nav-button" id="searchbutton" type="submit" value="Search">
+                </form>
+            </div>
+            <div id="homebox">
+                <form action="home" method="get">
+                    <input class="nav-button" type="submit" value="home">
+                </form>
+            </div>
+        </div>
+    </div>
+    <article id="mainpage">
+        {% if noResults %}
+            <div id="resultText">No Results Found</div>
+        {% else %}
+            {%if allResultsShown%}
+                <div id="resultText">All Results for {{searchQuery}}</div>
+            {%else%}
+                <div id="resultText">First 20 Results for {{searchQuery}}</div>
+            {%endif%}
+            <div id="teacherList">
+                {% for teacher in searchResultsNames %}
+                    <div class="teacher">
+                        <div class="ratingBox">
+                            <div class="ratingHeader">rating</div>
+                            <div class="rating">{{searchResults|dic:teacher|dic:avgRating}}</div>
+                            <div class="numRatings"># ratings : {{searchResults|dic:teacher|dic:numRatings}}</div>
+                        </div>
+                        <div class="infobox">
+                            <div class="teacherName">
+                                {{searchResults|dic:teacher|dic:firstName}} {{searchResults|dic:teacher|dic:lastName}}
+                            </div>
+                            <div class="department">
+                                {{searchResults|dic:teacher|dic:department}}
+                            </div>
+                            <div class="takeAgain">
+                                {{searchResults|dic:teacher|dic:wouldTakeAgainPercent|na}}
+                            </div>
+                            <div class="difficulty">
+                                level of difficulty : {{searchResults|dic:teacher|dic:avgDifficulty}}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </article>
+    
+</body>
+
+</html>
