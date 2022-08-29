@@ -6,29 +6,75 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UCONN RateMyProfessors Viewer</title>
+    {% load customtags %}
+    {% load static %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href='{% static 'rmpApp/home.css' %}?{% now "U" %}'>
 </head>
 
 <body>
-    {% load customtags %}
-    <div id="banner">
-        <div id="pagetitle">UCONN Rate My Professor Viewer</div>
-    </div>
-    <div id="mainpage">
-        <div id="searchContainer">
-            <form action="search" method="get">
-                {% csrf_token %}
-                <label for="searchbar">search for professors:</label><input type="text" name="search"
-                    placeholder="searching for...">
-                <input type="submit" value="Search">
-            </form>
+    <div id="navbar">
+        <div id="pageTitle">
+            uconn ratemyprofessors viewer
         </div>
+        <div id="nav-sections">
+            <div id="searchContainer">
+                <form class="searchform" action="search" method="get">
+                    {% csrf_token %}
+                    <input id="searchbar" type="text" name="search"
+                        placeholder="search for professors...">
+                    <input class="nav-button" id="searchbutton" type="submit" value="search">
+                </form>
+            </div>
+        </div>
+    </div>
+    <article id="mainpage">
         <div id="professorContainer">
-            {% for professor in l %}
-            <div>Hello There</div>
+            {% for teacher in teacherReviewDict %}
+                <div class='teacherbox'>
+                    <div class='teacherboxrow namerow'>
+                        <div class='teacherName'>{{teacherReviewDict|dic:teacher|dic:'professor'|dic:'firstName'}} {{teacherReviewDict|dic:teacher|dic:'professor'|dic:'lastName'}}</div>
+                        <div class='removeteacherbutton'><div>X</div></div>
+                    </div>
+                    <div class='teacherboxrow'>
+                        <div class="ratingBox" style="background-color:{{teacherReviewDict|dic:teacher|dic:'professor'|dic:'avgRating'|ratingcolor}}">
+                            <div class="ratingHeader">rating</div>
+                            <div class="rating">{{teacherReviewDict|dic:teacher|dic:'professor'|dic:'avgRating'}}</div>
+                            <div class="numRatings"># ratings : {{teacherReviewDict|dic:teacher|dic:'professor'|dic:'numRatings'}}</div>
+                        </div>
+                    </div>
+                    <div class='teacherboxrow'>
+                        <div class='takeAgain'>would take again : {{teacherReviewDict|dic:teacher|dic:'professor'|dic:'wouldTakeAgainPercent'|na}}</div>
+
+                    </div>
+                    <div class='teacherboxrow'>
+                        <div class="difficulty">
+                            level of difficulty : {{teacherReviewDict|dic:teacher|dic:'professor'|dic:'avgDifficulty'}}
+                        </div>
+                    </div>
+                    <div class='teacherboxrow'>
+                        <div class='reviewbutton'>See Reviews</div>
+                    </div>
+                    <div></div>
+                </div>
             {% endfor %}
         </div>
-        <div id="bottomBanner"></div>
-    </div>
+        {%for teacher in teacherReviewDict%}
+            <div class='reviewcontainer'>
+                <div class='review-name'>{{teacherReviewDict|dic:teacher|dic:'professor'|dic:'firstName'}} {{teacherReviewDict|dic:teacher|dic:'professor'|dic:'lastName'}}</div>
+
+                {%for review in teacherReviewDict|dic:teacher|dic:'reviews'%}
+                    <div class='reviewbox'>
+                        <div class='comment'>{{review|dic:'comment'}}</div>
+                    </div>
+                {%endfor%}
+            </div>
+        {%endfor%}
+    </article>
+
+    <script src='{% static 'rmpApp/home.js' %}?{% now "U" %}'></script>
 </body>
 
 </html>

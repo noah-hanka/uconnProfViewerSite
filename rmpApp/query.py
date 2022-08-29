@@ -169,8 +169,8 @@ class rmp:
             firstname = teacher['firstName']
             lastname = teacher['lastName']
             legacyId = teacher['legacyId']
-            teacherDict[f'{firstname}_{lastname}_{legacyId}'.replace('.','')] = teacher
-
+            tid = teacher['id']
+            teacherDict[f'{firstname}_{lastname}_{legacyId}_{tid}'.replace('.','')] = teacher
         return teacherDict
 
     #reinitializes self.teachersDict and updates it with all current teachers 

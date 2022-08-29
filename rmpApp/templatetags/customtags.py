@@ -8,7 +8,7 @@ def dic(dic,key):
     return dic[key]
 @register.filter
 def na(value):
-    return "N/A" if value == -1 else str(value)+'%'
+    return "n/a" if value == -1 else str(value)+'%'
 @register.filter
 def ratingcolor(value):
     value = int(value)

@@ -5,13 +5,32 @@ from rmpApp.query import rmp
 uconn_id = 'U2Nob29sLTEwOTE='
 uconnRMP = rmp(uconn_id)
 
-# for testing purposes
-selectedTeachers = ['A_Deener_1395977']
-selectTeachersDict = {'A_Deener_1395977':{'__typename': 'Teacher', 'id': 'VGVhY2hlci0xMzk1OTc3', 'legacyId': 1395977, 'avgRating': 3.8, 'numRatings': 4, 'wouldTakeAgainPercent': 100, 'avgDifficulty': 3.3, 'department': 'Sociology', 'school': {'__ref': 'U2Nob29sLTEwOTE='}, 'firstName': 'A', 'lastName': 'Deener', 'isSaved': False}}
+selectedTeachers = []
+selectedTeachersDict = dict()
+teacherReviewDict = dict()
 
 def home(request):
+    global selectedTeachers
+    selectedTeachers = []
+    if (request.method == 'POST'):
+        selectedTeachers = request.POST['teacherData'].split(',')
     template = loader.get_template('rmpApp/home.html')
+    global selectedTeachersDict
+    selectedTeachersDict = dict()
+    global teacherReviewDict
+    teacherReviewDict = dict()
+    for teacher in selectedTeachers:
+        teacherParts = teacher.split('_')
+        tid = teacherParts[-1]
+        legacyId = teacherParts[-2]
+        teacherData = uconnRMP.fetchProfData(legacyId,tid)
+        teacherReviewDict[teacher] = teacherData
+        selectedTeachersDict[teacher] = teacherData['professor']
+    print(teacherReviewDict[list(teacherReviewDict.keys())[0]]['reviews'][0].keys())
     context = {
+        'teacherList':selectedTeachers,
+        'teacherDict':selectedTeachersDict,
+        'teacherReviewDict':teacherReviewDict
     }
     return HttpResponse(template.render(context,request))
 
@@ -26,11 +45,11 @@ def search(request):
     searchResults = uconnRMP.search(searchQuery)
     if len(searchResults) <= 20: allResultsShown = True
     searchResultsNames = list(searchResults.keys())[:20]
-
     if len(searchResults) == 0: noResults = True
     template = loader.get_template('rmpApp/search.html')
 
     teacherLookupKey = {key:key for key in list(list(searchResults.values())[0].keys())} if len(searchResults) > 0 else dict()
+    global selectedTeachersDict
     context = {
         'searchResults':searchResults,
         'noResults':noResults,
@@ -39,7 +58,7 @@ def search(request):
         'searchResultsNames':searchResultsNames,
         'selectedTeachers':selectedTeachers,
         'selectedTeachersJsonList':{'list':selectedTeachers},
-        'selectedTeachersDict':selectTeachersDict
+        'selectedTeachersDict':selectedTeachersDict
     }
     context.update(teacherLookupKey)
 

@@ -30,9 +30,11 @@
                 </form>
             </div>
             <div id="homebox">
-                <form action="home" method="get">
-                    <input class="nav-button" type="submit" value="home">
+                <form action="home" method="post" id='homeform'>
+                    {% csrf_token %}
+                    <input type="hidden" id='homedata' name='teacherData'>
                 </form>
+                <button class="nav-button" id='homesubmit' name='homesubmit'>Home</button>
             </div>
         </div>
     </div>

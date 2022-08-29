@@ -1,5 +1,8 @@
 const teachersJSON = JSON.parse(document.querySelector('#searchResults').textContent);
 const initialTeachers = JSON.parse(document.querySelector('#selectedTeachersJsonList').textContent)['list'];
+
+const teacherList = initialTeachers
+
 const compareList = document.querySelector('#compareList');
 const addButtons = document.querySelectorAll('.addButton');
 
@@ -24,6 +27,7 @@ function updateTeacherListButton(button) {
         const teacher = teachersJSON[button.id]
         new_li.innerText = `${teacher["firstName"]} ${teacher['lastName']}`;
         compareList.appendChild(new_li);
+        teacherList.push(button.id)
     } else {
         button.innerText = 'Add Teacher to Compare List';
         let id_string = `${button.id}_li`;
@@ -40,3 +44,20 @@ for (const button of addButtons) {
         updateTeacherListButton(button);
     });
 }
+
+
+
+
+function postTeachers() {
+    const form = document.querySelector('#homeform');
+    let teacherFormEl = document.querySelector('#homedata');
+    teacherFormEl.setAttribute('value', teacherList);
+    console.log(teacherList);
+    form.submit();
+}
+
+const inp = document.querySelector('#homesubmit');
+
+inp.addEventListener('click', () => {
+    postTeachers()
+})
