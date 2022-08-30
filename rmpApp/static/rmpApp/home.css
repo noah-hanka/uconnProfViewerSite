@@ -91,7 +91,7 @@ body {
 }
 
 .teacherbox {
-    border: solid #000E2F 5px;
+    border: solid #000E2F 1px;
     width: 20%;
     padding: 1;
     border-radius: 1rem;
@@ -155,4 +155,5 @@ body {
     border-radius: 1rem;
     width: 50%;
     margin: auto;
+    visibility: hidden;
 }

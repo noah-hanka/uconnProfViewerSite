@@ -22,19 +22,20 @@
         </div>
         <div id="nav-sections">
             <div id="searchContainer">
-                <form class="searchform" action="search" method="get">
+                <form id="searchform" action="search" method="post">
                     {% csrf_token %}
                     <input id="searchbar" type="text" name="search"
                         placeholder="search for professors...">
-                    <input class="nav-button" id="searchbutton" type="submit" value="search">
+                    <input type="hidden" id='teacherData' name='teacherData'>
                 </form>
+                <button class="nav-button" id="searchbutton">search</button>
             </div>
             <div id="homebox">
                 <form action="home" method="post" id='homeform'>
                     {% csrf_token %}
                     <input type="hidden" id='homedata' name='teacherData'>
                 </form>
-                <button class="nav-button" id='homesubmit' name='homesubmit'>Home</button>
+                <button class="nav-button" id='homesubmit' name='homesubmit'>compare</button>
             </div>
         </div>
     </div>
@@ -49,6 +50,7 @@
                     <div class="compare-li-name">
                         {{selectedTeachersDict|dic:teacher|dic:firstName}} {{selectedTeachersDict|dic:teacher|dic:lastName}}
                     </div>
+                    <div class="compare-li-button" id="{{teacher}}_removeButton"><div>X</div></div>
                     </li>
                 {%endfor%}
             </ul>

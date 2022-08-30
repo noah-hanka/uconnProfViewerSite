@@ -14,11 +14,14 @@ def home(request):
     selectedTeachers = []
     if (request.method == 'POST'):
         selectedTeachers = request.POST['teacherData'].split(',')
+    if selectedTeachers == ['']:
+        selectedTeachers = []
     template = loader.get_template('rmpApp/home.html')
     global selectedTeachersDict
     selectedTeachersDict = dict()
     global teacherReviewDict
     teacherReviewDict = dict()
+    print(selectedTeachers)
     for teacher in selectedTeachers:
         teacherParts = teacher.split('_')
         tid = teacherParts[-1]
@@ -26,16 +29,39 @@ def home(request):
         teacherData = uconnRMP.fetchProfData(legacyId,tid)
         teacherReviewDict[teacher] = teacherData
         selectedTeachersDict[teacher] = teacherData['professor']
-    print(teacherReviewDict[list(teacherReviewDict.keys())[0]]['reviews'][0].keys())
     context = {
         'teacherList':selectedTeachers,
+        'selectedTeachersJsonList':{'list':selectedTeachers},
         'teacherDict':selectedTeachersDict,
         'teacherReviewDict':teacherReviewDict
     }
+    print(selectedTeachers)
     return HttpResponse(template.render(context,request))
 
 def search(request):
-    searchQuery = request.GET["search"]
+    global selectedTeachersDict
+    global selectedTeachers
+    print(request.POST)
+    if (request.method == 'POST'):
+        searchQuery = request.POST["search"]
+        selectedTeachers = request.POST['teacherData'].split(',')
+
+    if selectedTeachers == ['']:
+        selectedTeachers = []
+    
+
+    newTeacherDict = dict()
+    for teacher in selectedTeachers:
+        if teacher not in selectedTeachersDict:
+            teacherParts = teacher.split('_')
+            tid = teacherParts[-1]
+            legacyId = teacherParts[-2]
+            teacherData = uconnRMP.fetchProfData(legacyId,tid)
+            newTeacherDict[teacher] = teacherData['professor']
+        else:
+            newTeacherDict[teacher] = selectedTeachersDict[teacher]
+    selectedTeachersDict = newTeacherDict
+
     noResults = False
 
     allResultsShown = False
@@ -49,7 +75,6 @@ def search(request):
     template = loader.get_template('rmpApp/search.html')
 
     teacherLookupKey = {key:key for key in list(list(searchResults.values())[0].keys())} if len(searchResults) > 0 else dict()
-    global selectedTeachersDict
     context = {
         'searchResults':searchResults,
         'noResults':noResults,
