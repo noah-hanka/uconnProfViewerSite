@@ -16,13 +16,23 @@
 </head>
 
 <body>
+    <div id='alertbackground' class='hidden'>
+        <div id='alertbox'>
+            <div id='alerttext'>
+                you have reached the maximum limit of 12 professors, please remove one before trying to add another
+            </div>
+            <button id='alertbutton'>
+                ok
+            </button>
+        </div>
+    </div>
     <div id="navbar">
         <div id="pageTitle">
             uconn ratemyprofessors viewer
         </div>
         <div id="nav-sections">
             <div id="searchContainer">
-                <form id="searchform" action="search" method="post">
+                <form autocomplete="off" id="searchform" action="search" method="post">
                     {% csrf_token %}
                     <input id="searchbar" type="text" name="search"
                         placeholder="search for professors...">
@@ -48,9 +58,9 @@
                 {% for teacher in selectedTeachers %}
                     <li class="compare-li" id="{{teacher}}_li">
                     <div class="compare-li-name">
-                        {{selectedTeachersDict|dic:teacher|dic:firstName}} {{selectedTeachersDict|dic:teacher|dic:lastName}}
+                        {{selectedTeachersDict|dic:teacher|dic:firstName|lower}} {{selectedTeachersDict|dic:teacher|dic:lastName|lower}}
                     </div>
-                    <div class="compare-li-button" id="{{teacher}}_removeButton"><div>X</div></div>
+                    <button class="compare-li-button" id="{{teacher}}_removeButton">x</button>
                     </li>
                 {%endfor%}
             </ul>
@@ -64,7 +74,7 @@
                 {%if allResultsShown%}
                     <div id="resultText">all results for {{searchQuery}}</div>
                 {%else%}
-                    <div id="resultText">first 20 results for {{searchQuery}}</div>
+                    <div id="resultText">first 20 results for {{searchQuery|emptySearch}}</div>
                 {%endif%}
                 <div id="teacherList">
                     {% for teacher in searchResultsNames %}

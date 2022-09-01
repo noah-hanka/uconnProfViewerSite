@@ -2,9 +2,11 @@ const teachersJSON = JSON.parse(document.querySelector('#searchResults').textCon
 const initialTeachers = JSON.parse(document.querySelector('#selectedTeachersJsonList').textContent)['list'];
 const teacherList = initialTeachers
 
+const body = document.body;
+
 const compareList = document.querySelector('#compareList');
 const addButtons = document.querySelectorAll('.addButton');
-let removeButtons = document.querySelectorAll('.compare-li-button');
+const removeButtons = document.querySelectorAll('.compare-li-button');
 
 for (const teacher of initialTeachers) {
     const button = document.getElementById(`${teacher}`);
@@ -19,6 +21,10 @@ for (const teacher of initialTeachers) {
 function updateTeacherListButton(button) {
     const innerText = button.innerText;
     if (innerText === 'Add Teacher to Compare List') {
+        if (teacherList.length === 6) {
+            toggleAlert();
+            return;
+        }
         button.innerText = 'Remove Teacher from Compare List'
         const new_li = document.createElement('li');
         new_li.classList.add('compare-li');
@@ -28,15 +34,14 @@ function updateTeacherListButton(button) {
 
         const namediv = document.createElement('div');
         namediv.classList.add('compare-li-name')
-        namediv.innerText = `${teacher["firstName"]} ${teacher['lastName']}`;
+        namediv.innerText = `${teacher["firstName"]} ${teacher['lastName']}`.toLowerCase();
         new_li.appendChild(namediv);
 
         const removediv = document.createElement('div');
-        const xdiv = document.createElement('div');
-        xdiv.innerText = 'X';
-        removediv.appendChild(xdiv);
+        removediv.innerText = 'X';
         removediv.classList.add('compare-li-button');
         removediv.id = `${button.id}_removeButton`;
+        removediv.addEventListener('click', removeButtonListener);
         new_li.appendChild(removediv);
         compareList.appendChild(new_li);
         teacherList.push(button.id)
@@ -50,17 +55,14 @@ function updateTeacherListButton(button) {
             teacherList.splice(index, 1)
         }
     }
-    removeButtons = document.querySelectorAll('.compare-li-button');
-    updateRemoveEventListeners();
     button.classList.toggle('addedTeacher')
-
+    return;
 }
 
 
 for (const button of addButtons) {
     button.addEventListener('click', (e) => {
         updateTeacherListButton(button);
-
     });
 }
 
@@ -81,32 +83,52 @@ inp.addEventListener('click', () => {
 })
 
 
-function updateRemoveEventListeners() {
-    for (const removebutton of removeButtons) {
-        removebutton.addEventListener('click', () => {
-            const id = removebutton.id;
-            const index = id.indexOf('_removeButton');
-            const button = document.getElementById(id.substring(0, index));
-            if (button) {
-                updateTeacherListButton(button);
-            } else {
-                removebutton.parentElement.remove()
-            }
+for (const removebutton of removeButtons) {
+    removebutton.addEventListener('click', removeButtonListener);
+}
 
-        })
+function removeButtonListener(e) {
+    const removebutton = e.target;
+    const teacherID = removebutton.id.substring(0, removebutton.id.indexOf('_removeButton'));
+    const button = document.getElementById(teacherID);
+    const index = teacherList.indexOf(teacherID);
+    if (index !== -1) {
+        teacherList.splice(index, 1)
+    }
+    if (button) {
+        updateTeacherListButton(button);
+    } else {
+        removebutton.parentElement.remove();
     }
 }
-updateRemoveEventListeners();
+
+const searchform = document.querySelector('#searchform');
 
 
 function searchPost() {
-    const form = document.querySelector('#searchform');
     let teacherFormEl = document.querySelector('#teacherData');
     teacherFormEl.setAttribute('value', teacherList);
-    form.submit();
+    searchform.submit();
 }
 
 const searchbutton = document.getElementById('searchbutton');
 searchbutton.addEventListener('click', () => {
     searchPost();
 });
+
+searchform.addEventListener('submit', (e) => {
+    e.preventDefault();
+    searchPost();
+});
+
+
+
+const alertbackground = document.querySelector('#alertbackground');
+
+function toggleAlert() {
+    alertbackground.classList.toggle('hidden');
+    body.classList.toggle('noscroll');
+}
+
+const alertok = document.querySelector('#alertbutton');
+alertok.addEventListener('click', toggleAlert);

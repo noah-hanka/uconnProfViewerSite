@@ -21,7 +21,7 @@
         </div>
         <div id="nav-sections">
             <div id="searchContainer">
-                <form id="searchform" action="search" method="post">
+                <form autocomplete="off" id="searchform" action="search" method="post">
                     {% csrf_token %}
                     <input id="searchbar" type="text" name="search"
                         placeholder="search for professors...">
@@ -36,8 +36,8 @@
             {% for teacher in teacherList %}
                 <div class='teacherbox'>
                     <div class='teacherboxrow namerow'>
-                        <div class='teacherName'>{{teacherReviewDict|dic:teacher|dic:'professor'|dic:'firstName'}} {{teacherReviewDict|dic:teacher|dic:'professor'|dic:'lastName'}}</div>
-                        <div class='removeteacherbutton' id="{{teacher}}"><div>X</div></div>
+                        <div class='teacherName'>{{teacherReviewDict|dic:teacher|dic:'professor'|dic:'firstName'|lower}} {{teacherReviewDict|dic:teacher|dic:'professor'|dic:'lastName'|lower}}</div>
+                        <button class='removeteacherbutton' id="{{teacher}}">x</button>
                     </div>
                     <div class='teacherboxrow'>
                         <div class="ratingBox" style="background-color:{{teacherReviewDict|dic:teacher|dic:'professor'|dic:'avgRating'|ratingcolor}}">
@@ -56,23 +56,170 @@
                         </div>
                     </div>
                     <div class='teacherboxrow'>
-                        <div class='reviewbutton' id="{{teacher}}">See Reviews</div>
+                        <button class='reviewbutton' id="{{teacher}}_reviewbutton">See Reviews</button>
                     </div>
                 </div>
             {% endfor %}
         </div>
+    </article>
+    <div id='reviewbackground' class='hidden'>
         {%for teacher in teacherList%}
-            <div class='reviewcontainer' id="{{teacher}}_reviews">
-                <div class='review-name'>{{teacherReviewDict|dic:teacher|dic:'professor'|dic:'firstName'}} {{teacherReviewDict|dic:teacher|dic:'professor'|dic:'lastName'}}</div>
-
-                {%for review in teacherReviewDict|dic:teacher|dic:'reviews'%}
-                    <div class='reviewbox'>
-                        <div class='comment'>{{review|dic:'comment'}}</div>
-                    </div>
-                {%endfor%}
+            <div class='reviewcontainer hidden' id="{{teacher}}_reviews">
+                <div class='reviewHeader'>
+                    <button class='reviewX'>x</button>
+                    <div class='review-name'>{{teacherReviewDict|dic:teacher|dic:'professor'|dic:'firstName'}} {{teacherReviewDict|dic:teacher|dic:'professor'|dic:'lastName'}} | {{teacherReviewDict|dic:teacher|dic:'professor'|dic:'department'}}</div>
+                </div>
+                <div class='allReviews'>
+                    {%for review in teacherReviewDict|dic:teacher|dic:'reviews'%}
+                        <div class='reviewbox'>
+                            <div class='metrics'>
+                                <div class='qualityContainer'>
+                                    <div class='qualityHeader'>quality</div>
+                                    <div class='quality' style="background-color:{{review|getRating|ratingcolor}}">{{review|getRating}}
+                                    </div>
+                                </div>
+                                <div class='difficultyContainer'>
+                                    <div class='difficultyHeader'>difficulty</div>
+                                    <div class='difficulty' style="background-color:{{review|dic:'difficultyRating'|difficultycolor}}">{{review|dic:'difficultyRating'}}
+                                    </div>
+                                </div>
+                                <div class='thumbs'>
+                                    <div class='thumbsUp'>
+                                        <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                                        <!-- Generator: Adobe Illustrator 15.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+                                        <svg
+                                            xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+                                            xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            xmlns:dc="http://purl.org/dc/elements/1.1/"
+                                            xmlns:ns1="http://sozi.baierouge.fr"
+                                            xmlns:cc="http://web.resource.org/cc/"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink"
+                                            xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+                                            id="Layer_3"
+                                            enable-background="new 0 0 200 200"
+                                            xml:space="preserve"
+                                            viewBox="0 0 200 200"
+                                            version="1.1"
+                                            y="0px"
+                                            x="0px"
+                                            width="25px"
+                                            height="25px"
+                                        >
+                                        <path
+                                            stroke="#000000"
+                                            stroke-width="6"
+                                            stroke-miterlimit="10"
+                                            d="m83.633 4.544s6.518-0.448 8.766 6.069 2.023 16.406 2.023 16.406 7.191 14.834 15.058 20.678 20.678 12.586 20.678 12.586 2.696 2.248 4.046 5.395c1.349 3.146 7.416 20.902 7.416 20.902s4.496 11.014 11.463 18.43c6.968 7.417 10.339 8.991 14.16 10.114 3.82 1.123 5.169 2.248 5.169 2.248l-7.192 76.866s-15.732-7.866-21.576-6.743-15.059 1.123-22.026 4.72c-6.967 3.597-43.377 4.943-62.481-2.697s-23.6-3.371-27.87-13.935 6.745-11.014 7.418-14.834-11.238-3.371-12.812-11.912c-0.529-2.873 3.438-9.617 10.113-14.384 3.147-2.248-13.26 0.674-11.687-14.609 0.734-7.144 2.698-8.765 9.44-10.563 6.741-1.798-11.014-4.495-10.114-15.284 0.611-7.336 10.548-14.668 26.071-15.732 16.406-1.123 24.947-0.898 24.947-0.898l17.081-1.124s-11.463-18.654-15.732-25.397c-4.27-6.742-9.663-21.801-9.214-24.947 0.446-3.158 1.12-23.162 16.853-21.364z"
+                                            fill="#FFFFFF"
+                                        />
+                                        <metadata
+                                            ><rdf:RDF
+                                            ><cc:Work
+                                                ><dc:format
+                                                >image/svg+xml</dc:format
+                                                ><dc:type
+                                                    rdf:resource="http://purl.org/dc/dcmitype/StillImage"
+                                                /><cc:license
+                                                    rdf:resource="http://creativecommons.org/licenses/publicdomain/"
+                                                /><dc:publisher
+                                                ><cc:Agent
+                                                    rdf:about="http://openclipart.org/"
+                                                    ><dc:title
+                                                    >Openclipart</dc:title
+                                                    ></cc:Agent
+                                                ></dc:publisher
+                                                ></cc:Work
+                                            ><cc:License
+                                                rdf:about="http://creativecommons.org/licenses/publicdomain/"
+                                                ><cc:permits
+                                                    rdf:resource="http://creativecommons.org/ns#Reproduction"
+                                                /><cc:permits
+                                                    rdf:resource="http://creativecommons.org/ns#Distribution"
+                                                /><cc:permits
+                                                    rdf:resource="http://creativecommons.org/ns#DerivativeWorks"
+                                                /></cc:License
+                                            ></rdf:RDF
+                                            ></metadata
+                                        ></svg
+                                        >                                
+                                        <div class='thumbsUpCount'>{{review|dic:'thumbsUpTotal'}}</div>
+                                    </div>
+                                    <div class='thumbsDown'>
+                                        <svg
+                                            xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+                                            xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            xmlns:dc="http://purl.org/dc/elements/1.1/"
+                                            xmlns:ns1="http://sozi.baierouge.fr"
+                                            xmlns:cc="http://web.resource.org/cc/"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink"
+                                            xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+                                            id="Layer_3"
+                                            enable-background="new 0 0 200 200"
+                                            xml:space="preserve"
+                                            viewBox="0 0 200 200"
+                                            version="1.1"
+                                            y="0px"
+                                            x="0px"
+                                            width="25px"
+                                            height="25px"
+                                        >
+                                        <path
+                                            stroke="#000000"
+                                            stroke-width="6"
+                                            stroke-miterlimit="10"
+                                            d="m112.37 194.98s-6.518 0.448-8.766-6.069-2.023-16.406-2.023-16.406-7.191-14.834-15.058-20.678-20.678-12.586-20.678-12.586-2.696-2.248-4.046-5.395c-1.349-3.146-7.416-20.902-7.416-20.902s-4.496-11.014-11.463-18.43c-6.968-7.417-10.339-8.991-14.16-10.114-3.82-1.123-5.169-2.248-5.169-2.248l7.192-76.866s15.732 7.866 21.576 6.743 15.059-1.123 22.026-4.72c6.967-3.597 43.377-4.943 62.481 2.697s23.6 3.371 27.87 13.935-6.745 11.014-7.418 14.834 11.238 3.371 12.812 11.912c0.529 2.873-3.438 9.617-10.113 14.384-3.147 2.248 13.26-0.674 11.687 14.609-0.734 7.144-2.698 8.765-9.44 10.563-6.741 1.798 11.014 4.495 10.114 15.284-0.611 7.336-10.548 14.668-26.071 15.732-16.406 1.123-24.947 0.898-24.947 0.898l-17.081 1.124s11.463 18.654 15.732 25.397c4.27 6.742 9.663 21.801 9.214 24.947-0.43 3.16-1.11 23.16-16.84 21.36z"
+                                            fill="#FFFFFF"
+                                        />
+                                        <metadata
+                                            ><rdf:RDF
+                                            ><cc:Work
+                                                ><dc:format
+                                                >image/svg+xml</dc:format
+                                                ><dc:type
+                                                    rdf:resource="http://purl.org/dc/dcmitype/StillImage"
+                                                /><cc:license
+                                                    rdf:resource="http://creativecommons.org/licenses/publicdomain/"
+                                                /><dc:publisher
+                                                ><cc:Agent
+                                                    rdf:about="http://openclipart.org/"
+                                                    ><dc:title
+                                                    >Openclipart</dc:title
+                                                    ></cc:Agent
+                                                ></dc:publisher
+                                                ></cc:Work
+                                            ><cc:License
+                                                rdf:about="http://creativecommons.org/licenses/publicdomain/"
+                                                ><cc:permits
+                                                    rdf:resource="http://creativecommons.org/ns#Reproduction"
+                                                /><cc:permits
+                                                    rdf:resource="http://creativecommons.org/ns#Distribution"
+                                                /><cc:permits
+                                                    rdf:resource="http://creativecommons.org/ns#DerivativeWorks"
+                                                /></cc:License
+                                            ></rdf:RDF
+                                            ></metadata
+                                        ></svg>
+                                        <div class='thumbsDownCount'>{{review|dic:'thumbsDownTotal'}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='metadata'>
+                                <div class='datarow'>
+                                    <div class='course'>{{review|dic:'class'}}</div>
+                                    <div class='date'>{{review|dic:'date'}}</div>
+                                </div>
+                                <div class='datarow'>
+                                    <div class='comment'>{{review|dic:'comment'}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    {%endfor%}
+                </div>
             </div>
         {%endfor%}
-    </article>
+    </div>
     {{ selectedTeachersJsonList|json_script:"selectedTeachersJsonList"}}
     <script src='{% static 'rmpApp/home.js' %}?{% now "U" %}'></script>
 </body>
