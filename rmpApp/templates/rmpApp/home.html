@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UCONN RateMyProfessors Viewer</title>
+    <title>UCONN Professor Viewer</title>
     {% load customtags %}
     {% load static %}
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,12 +15,17 @@
 </head>
 
 <body>
+    <div id='unsupported'>
+        <div id='unsupportedtext'>
+            sorry, the device you are on is currently unsupported, please access this from a laptop or desktop
+        </div>
+    </div>
     <div class='hidden' id='loadingscreen'>
         <div id='loadingtext'></div>
     </div>
     <div id="navbar">
         <div id="pageTitle">
-            uconn ratemyprofessors viewer
+            uconn professor viewer
         </div>
         <div id="nav-sections">
             <div id="searchContainer">
@@ -74,7 +79,7 @@
             <div class='reviewcontainer hidden' id="{{teacher}}_reviews">
                 <div class='reviewHeader'>
                     <button class='reviewX'>x</button>
-                    <div class='review-name'>{{teacherReviewDict|dic:teacher|dic:'professor'|dic:'firstName'|lower}} {{teacherReviewDict|dic:teacher|dic:'professor'|dic:'lastName'|lower}} | {{teacherReviewDict|dic:teacher|dic:'professor'|dic:'department'}}</div>
+                    <div class='review-name'>{{teacherReviewDict|dic:teacher|dic:'professor'|dic:'firstName'|lower}} {{teacherReviewDict|dic:teacher|dic:'professor'|dic:'lastName'|lower}} | {{teacherReviewDict|dic:teacher|dic:'professor'|dic:'department'|lower}}</div>
                 </div>
                 <div class='allReviews'>
                     {%for review in teacherReviewDict|dic:teacher|dic:'reviews'%}
@@ -219,7 +224,7 @@
                                 </div>
                                 <div class='datarow'>
                                     <div class='grade'>
-                                        grade : {{review|dic:'grade'|gradeNA}}
+                                        grade : {{review|dic:'grade'|gradeNA|lower}}
                                     </div>
                                     <div class='textbook'>
                                         textbook : {{review|dic:'textbookUse'|textbookConvert}}

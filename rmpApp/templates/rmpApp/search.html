@@ -16,6 +16,11 @@
 </head>
 
 <body>
+    <div id='unsupported'>
+        <div id='unsupportedtext'>
+            sorry, the device you are on is currently unsupported, please access this from a laptop or desktop
+        </div>
+    </div>
     <div class='hidden' id='loadingscreen'>
         <div id='loadingtext'></div>
     </div>
@@ -34,6 +39,13 @@
             uconn ratemyprofessors viewer
         </div>
         <div id="nav-sections">
+            <div id="homebox">
+                <form action="home" method="post" id='homeform'>
+                    {% csrf_token %}
+                    <input type="hidden" id='homedata' name='teacherData'>
+                </form>
+                <button class="nav-button" id='homesubmit' name='homesubmit'>compare</button>
+            </div>
             <div id="searchContainer">
                 <form autocomplete="off" id="searchform" action="search" method="post">
                     {% csrf_token %}
@@ -43,19 +55,12 @@
                 </form>
                 <button class="nav-button" id="searchbutton">search</button>
             </div>
-            <div id="homebox">
-                <form action="home" method="post" id='homeform'>
-                    {% csrf_token %}
-                    <input type="hidden" id='homedata' name='teacherData'>
-                </form>
-                <button class="nav-button" id='homesubmit' name='homesubmit'>compare</button>
-            </div>
         </div>
     </div>
     <article id="mainpage">
         <div id='compareSidebar'>
             <div id="compareHeader">
-                Teachers to Compare:
+                comparing :
             </div>
             <ul id="compareList">
                 {% for teacher in selectedTeachers %}
