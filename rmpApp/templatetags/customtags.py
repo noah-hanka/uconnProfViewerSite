@@ -45,3 +45,31 @@ def getRating(review):
     clarity = review['clarityRating']
     helpful = review['helpfulRating']
     return str((clarity+helpful)//2)
+@register.filter
+def convertDate(datestring):
+    #2022-05-09 04:04:15 +0000 UTC
+    datestring = datestring.split(' ')[0].split('-')
+    year = datestring[0]
+    month  = datestring[1]
+    day = datestring[2]
+
+    months = {'01':'January','02':'February','03':'March','04':'April','05':'May','06':'June','07':'July','08':'August','09':'September','10':'October','11':'November','12':'December'}
+    month = months[month]
+
+    if day[0] == '0': day = day[1]
+
+    return f'{month} {day}, {year}'
+@register.filter
+def textbookConvert(textbookUse):
+    if textbookUse == 5:
+        return 'yes'
+    elif textbookUse == 0:
+        return 'no'
+    else:
+        return 'n/a'
+@register.filter
+def gradeNA(grade):
+    return 'N/A' if grade == '' else grade
+@register.filter
+def wouldTakeAgainConvert(wouldTakeAgain):
+    return 'yes' if wouldTakeAgain == 1 else 'no'

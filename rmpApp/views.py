@@ -48,7 +48,8 @@ def home(request):
         'teacherList':selectedTeachers,
         'selectedTeachersJsonList':{'list':selectedTeachers},
         'teacherDict':selectedTeachersDict,
-        'teacherReviewDict':teacherReviewDict
+        'teacherReviewDict':teacherReviewDict,
+        'teachersExist':(len(selectedTeachers)!=0)
     }
     return HttpResponse(template.render(context,request))
 

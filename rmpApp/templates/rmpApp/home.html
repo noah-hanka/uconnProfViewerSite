@@ -15,6 +15,9 @@
 </head>
 
 <body>
+    <div class='hidden' id='loadingscreen'>
+        <div id='loadingtext'></div>
+    </div>
     <div id="navbar">
         <div id="pageTitle">
             uconn ratemyprofessors viewer
@@ -33,33 +36,37 @@
     </div>
     <article id="mainpage">
         <div id="professorContainer">
-            {% for teacher in teacherList %}
-                <div class='teacherbox'>
-                    <div class='teacherboxrow namerow'>
-                        <div class='teacherName'>{{teacherReviewDict|dic:teacher|dic:'professor'|dic:'firstName'|lower}} {{teacherReviewDict|dic:teacher|dic:'professor'|dic:'lastName'|lower}}</div>
-                        <button class='removeteacherbutton' id="{{teacher}}">x</button>
-                    </div>
-                    <div class='teacherboxrow'>
-                        <div class="ratingBox" style="background-color:{{teacherReviewDict|dic:teacher|dic:'professor'|dic:'avgRating'|ratingcolor}}">
-                            <div class="ratingHeader">rating</div>
-                            <div class="rating">{{teacherReviewDict|dic:teacher|dic:'professor'|dic:'avgRating'}}</div>
-                            <div class="numRatings"># ratings : {{teacherReviewDict|dic:teacher|dic:'professor'|dic:'numRatings'}}</div>
+            {% if teachersExist %}
+                {% for teacher in teacherList %}
+                    <div class='teacherbox'>
+                        <div class='teacherboxrow namerow'>
+                            <div class='teacherName'>{{teacherReviewDict|dic:teacher|dic:'professor'|dic:'firstName'|lower}} {{teacherReviewDict|dic:teacher|dic:'professor'|dic:'lastName'|lower}}</div>
+                            <button class='removeteacherbutton' id="{{teacher}}">x</button>
                         </div>
-                    </div>
-                    <div class='teacherboxrow'>
-                        <div class='takeAgain'>would take again : {{teacherReviewDict|dic:teacher|dic:'professor'|dic:'wouldTakeAgainPercent'|na}}</div>
+                        <div class='teacherboxrow'>
+                            <div class="ratingBox" style="background-color:{{teacherReviewDict|dic:teacher|dic:'professor'|dic:'avgRating'|ratingcolor}}">
+                                <div class="ratingHeader">rating</div>
+                                <div class="rating">{{teacherReviewDict|dic:teacher|dic:'professor'|dic:'avgRating'}}</div>
+                                <div class="numRatings"># ratings : {{teacherReviewDict|dic:teacher|dic:'professor'|dic:'numRatings'}}</div>
+                            </div>
+                        </div>
+                        <div class='teacherboxrow'>
+                            <div class='takeAgain'>would take again : {{teacherReviewDict|dic:teacher|dic:'professor'|dic:'wouldTakeAgainPercent'|na}}</div>
 
-                    </div>
-                    <div class='teacherboxrow'>
-                        <div class="difficulty">
-                            level of difficulty : {{teacherReviewDict|dic:teacher|dic:'professor'|dic:'avgDifficulty'}}
+                        </div>
+                        <div class='teacherboxrow'>
+                            <div class="avgDifficulty">
+                                level of difficulty : {{teacherReviewDict|dic:teacher|dic:'professor'|dic:'avgDifficulty'}}
+                            </div>
+                        </div>
+                        <div class='teacherboxrow'>
+                            <button class='reviewbutton' id="{{teacher}}_reviewbutton">See Reviews</button>
                         </div>
                     </div>
-                    <div class='teacherboxrow'>
-                        <button class='reviewbutton' id="{{teacher}}_reviewbutton">See Reviews</button>
-                    </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            {% else %}
+                    <div id='noteachertext'>you have no professors selected, start by searching for them up top</div>
+            {% endif %}
         </div>
     </article>
     <div id='reviewbackground' class='hidden'>
@@ -67,7 +74,7 @@
             <div class='reviewcontainer hidden' id="{{teacher}}_reviews">
                 <div class='reviewHeader'>
                     <button class='reviewX'>x</button>
-                    <div class='review-name'>{{teacherReviewDict|dic:teacher|dic:'professor'|dic:'firstName'}} {{teacherReviewDict|dic:teacher|dic:'professor'|dic:'lastName'}} | {{teacherReviewDict|dic:teacher|dic:'professor'|dic:'department'}}</div>
+                    <div class='review-name'>{{teacherReviewDict|dic:teacher|dic:'professor'|dic:'firstName'|lower}} {{teacherReviewDict|dic:teacher|dic:'professor'|dic:'lastName'|lower}} | {{teacherReviewDict|dic:teacher|dic:'professor'|dic:'department'}}</div>
                 </div>
                 <div class='allReviews'>
                     {%for review in teacherReviewDict|dic:teacher|dic:'reviews'%}
@@ -75,12 +82,12 @@
                             <div class='metrics'>
                                 <div class='qualityContainer'>
                                     <div class='qualityHeader'>quality</div>
-                                    <div class='quality' style="background-color:{{review|getRating|ratingcolor}}">{{review|getRating}}
+                                    <div class='quality' style="background-color:{{review|getRating|ratingcolor}}"><div>{{review|getRating}}</div>
                                     </div>
                                 </div>
                                 <div class='difficultyContainer'>
                                     <div class='difficultyHeader'>difficulty</div>
-                                    <div class='difficulty' style="background-color:{{review|dic:'difficultyRating'|difficultycolor}}">{{review|dic:'difficultyRating'}}
+                                    <div class='difficulty' style="background-color:{{review|dic:'difficultyRating'|difficultycolor}}"><div>{{review|dic:'difficultyRating'}}</div>
                                     </div>
                                 </div>
                                 <div class='thumbs'>
@@ -206,9 +213,23 @@
                                 </div>
                             </div>
                             <div class='metadata'>
-                                <div class='datarow'>
+                                <div class='datarow coursedaterow'>
                                     <div class='course'>{{review|dic:'class'}}</div>
-                                    <div class='date'>{{review|dic:'date'}}</div>
+                                    <div class='date'>{{review|dic:'date'|convertDate}}</div>
+                                </div>
+                                <div class='datarow'>
+                                    <div class='grade'>
+                                        grade : {{review|dic:'grade'|gradeNA}}
+                                    </div>
+                                    <div class='textbook'>
+                                        textbook : {{review|dic:'textbookUse'|textbookConvert}}
+                                    </div>
+                                    <div class='attendance'>
+                                        attendance : {{review|dic:'attendanceMandatory'}}
+                                    </div>
+                                    <div>
+                                        would take again : {{review|dic:'wouldTakeAgain'|wouldTakeAgainConvert}}
+                                    </div>
                                 </div>
                                 <div class='datarow'>
                                     <div class='comment'>{{review|dic:'comment'}}</div>
@@ -223,5 +244,4 @@
     {{ selectedTeachersJsonList|json_script:"selectedTeachersJsonList"}}
     <script src='{% static 'rmpApp/home.js' %}?{% now "U" %}'></script>
 </body>
-
 </html>

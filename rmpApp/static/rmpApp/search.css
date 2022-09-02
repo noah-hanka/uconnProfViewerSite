@@ -313,3 +313,21 @@ button {
 #alertbutton:hover {
     transform: scale(1.2);
 }
+
+#loadingscreen.hidden {
+    opacity: 0;
+    z-index: -1000;
+}
+
+#loadingscreen {
+    z-index: 1000;
+    background-color: #000E2F;
+    color: white;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: xx-large;
+}

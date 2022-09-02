@@ -21,7 +21,7 @@ for (const teacher of initialTeachers) {
 function updateTeacherListButton(button) {
     const innerText = button.innerText;
     if (innerText === 'Add Teacher to Compare List') {
-        if (teacherList.length === 6) {
+        if (teacherList.length === 8) {
             toggleAlert();
             return;
         }
@@ -79,6 +79,8 @@ function postTeachers() {
 const inp = document.querySelector('#homesubmit');
 
 inp.addEventListener('click', () => {
+    loadingtext.innerText = 'fetching selected professor reviews . . .';
+    loadingscreen.classList.toggle('hidden');
     postTeachers()
 })
 
@@ -103,6 +105,8 @@ function removeButtonListener(e) {
 }
 
 const searchform = document.querySelector('#searchform');
+const loadingscreen = document.getElementById('loadingscreen');
+const loadingtext = document.getElementById('loadingtext');
 
 
 function searchPost() {
@@ -113,11 +117,15 @@ function searchPost() {
 
 const searchbutton = document.getElementById('searchbutton');
 searchbutton.addEventListener('click', () => {
+    loadingtext.innerText = 'searching for professors . . .';
+    loadingscreen.classList.toggle('hidden');
     searchPost();
 });
 
 searchform.addEventListener('submit', (e) => {
     e.preventDefault();
+    loadingtext.innerText = 'searching for professors . . .';
+    loadingscreen.classList.toggle('hidden');
     searchPost();
 });
 
@@ -132,3 +140,6 @@ function toggleAlert() {
 
 const alertok = document.querySelector('#alertbutton');
 alertok.addEventListener('click', toggleAlert);
+
+
+
