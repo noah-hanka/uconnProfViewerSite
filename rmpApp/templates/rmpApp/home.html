@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href='rmpApp/home.css'>
+    <link rel="stylesheet" href='{% static 'rmpApp/home.css' %}'>
 </head>
 
 <body>
@@ -247,6 +247,6 @@
         {%endfor%}
     </div>
     {{ selectedTeachersJsonList|json_script:"selectedTeachersJsonList"}}
-    <script src='rmpApp/home.js'></script>
+    <script src='{% static 'rmpApp/home.js' %}'></script>
 </body>
 </html>
