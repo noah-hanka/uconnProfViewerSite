@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.template import loader
-from rmpApp.query import rmp
+from uconnProfViewerApp.query import rmp
 import time
 
 uconn_id = 'U2Nob29sLTEwOTE='
@@ -17,7 +17,7 @@ def home(request):
         selectedTeachers = request.POST['teacherData'].split(',')
     if selectedTeachers == ['']:
         selectedTeachers = []
-    template = loader.get_template('rmpApp/home.html')
+    template = loader.get_template('uconnProfViewerApp/home.html')
     global selectedTeachersDict
     newTeacherDict = dict()
     global teacherReviewDict
@@ -86,7 +86,7 @@ def search(request):
     if len(searchResults) <= 20: allResultsShown = True
     searchResultsNames = list(searchResults.keys())[:20]
     if len(searchResults) == 0: noResults = True
-    template = loader.get_template('rmpApp/search.html')
+    template = loader.get_template('uconnProfViewerApp/search.html')
 
     teacherLookupKey = {key:key for key in list(list(searchResults.values())[0].keys())} if len(searchResults) > 0 else dict()
     context = {

@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class RmpappConfig(AppConfig):
+class UconnprofviewerappConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'rmpApp'
+    name = 'uconnProfViewerApp'

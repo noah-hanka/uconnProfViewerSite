@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('rmpApp', '0001_initial'),
+        ('uconnProfViewerApp', '0001_initial'),
     ]
 
     operations = [
