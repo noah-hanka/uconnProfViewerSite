@@ -88,7 +88,6 @@ def search(request):
     if len(searchResults) == 0: noResults = True
     template = loader.get_template('uconnProfViewerApp/search.html')
 
-    teacherLookupKey = {key:key for key in list(list(searchResults.values())[0].keys())} if len(searchResults) > 0 else dict()
     context = {
         'searchResults':searchResults,
         'noResults':noResults,
@@ -99,6 +98,5 @@ def search(request):
         'selectedTeachersJsonList':{'list':selectedTeachers},
         'selectedTeachersDict':selectedTeachersDict
     }
-    context.update(teacherLookupKey)
 
     return HttpResponse(template.render(context,request))

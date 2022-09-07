@@ -66,7 +66,7 @@
                 {% for teacher in selectedTeachers %}
                     <li class="compare-li" id="{{teacher}}_li">
                     <div class="compare-li-name">
-                        {{selectedTeachersDict|dic:teacher|dic:firstName|lower}} {{selectedTeachersDict|dic:teacher|dic:lastName|lower}}
+                        {{selectedTeachersDict|dic:teacher|dic:'firstName'|lower}} {{selectedTeachersDict|dic:teacher|dic:'lastName'|lower}}
                     </div>
                     <button class="compare-li-button" id="{{teacher}}_removeButton">x</button>
                     </li>
@@ -87,25 +87,25 @@
                 <div id="teacherList">
                     {% for teacher in searchResultsNames %}
                         <div class="teacher">
-                            <div class="ratingBox" style="background-color:{{searchResults|dic:teacher|dic:avgRating|ratingcolor}}">
+                            <div class="ratingBox" style="background-color:{{searchResults|dic:teacher|dic:'avgRating'|ratingcolor}}">
                                 <div class="ratingHeader">rating</div>
-                                <div class="rating">{{searchResults|dic:teacher|dic:avgRating}}</div>
-                                <div class="numRatings"># ratings : {{searchResults|dic:teacher|dic:numRatings}}</div>
+                                <div class="rating">{{searchResults|dic:teacher|dic:'avgRating'}}</div>
+                                <div class="numRatings"># ratings : {{searchResults|dic:teacher|dic:'numRatings'}}</div>
                             </div>
                             <div class="infobox">
                                 <div class="name_and_department">
                                     <div class="teacherName">
-                                        {{searchResults|dic:teacher|dic:firstName|lower}} {{searchResults|dic:teacher|dic:lastName|lower}}
+                                        {{searchResults|dic:teacher|dic:'firstName'|lower}} {{searchResults|dic:teacher|dic:'lastName'|lower}}
                                     </div>
                                     <div class="department">
-                                        {{searchResults|dic:teacher|dic:department|lower}}
+                                        {{searchResults|dic:teacher|dic:'department'|lower}}
                                     </div>
                                 </div>
                                 <div class="takeAgain">would take again : 
-                                    {{searchResults|dic:teacher|dic:wouldTakeAgainPercent|na}}
+                                    {{searchResults|dic:teacher|dic:'wouldTakeAgainPercent'|na}}
                                 </div>
                                 <div class="difficulty">
-                                    level of difficulty : {{searchResults|dic:teacher|dic:avgDifficulty}}
+                                    level of difficulty : {{searchResults|dic:teacher|dic:'avgDifficulty'}}
                                 </div>
                             </div>
                             <div class="addContainer">
